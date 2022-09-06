@@ -15,3 +15,9 @@ class Hotel(AbstractUser):
     address = models.OneToOneField(
         "addresses.Address", on_delete=models.CASCADE, related_name="hotel"
     )
+
+
+class Amenity(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+    name = models.CharField(max_length=50)
+    hotel = models.ManyToManyField(Hotel, related_name="amenities")
