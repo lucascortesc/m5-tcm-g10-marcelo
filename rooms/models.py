@@ -13,3 +13,11 @@ class Room(models.Model):
     floor = models.CharField(max_length=100)
 
     hotel = models.ForeignKey("hotels.Hotel", on_delete=models.CASCADE, related_name="rooms")
+
+
+
+class RoomAmenity(models.model):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+    name = models.CharField(max_length=50)
+
+    room = models.ManyToManyField("rooms.Room", on_delete=models.CASCADE, related_name="amenities")
