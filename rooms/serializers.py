@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework.exceptions import ValidationError
-from rooms.models import Room, RoomAmenity
+from rooms.models import Room, Amenity
 
 
 class RoomSerializer(ModelSerializer):
@@ -18,11 +18,11 @@ class RoomSerializer(ModelSerializer):
 
 class RoomAmenitySerializer(ModelSerializer):
     class Meta:
-        model = RoomAmenity
+        model = Amenity
         fields = "__all__"
 
     def create(self, validated_data):
-        amenity, created = RoomAmenity.objects.get_or_create(*validated_data)
+        amenity, created = Amenity.objects.get_or_create(*validated_data)
         if not created:
             raise ValidationError({"Amenity": "Amenity already exists."})
 
