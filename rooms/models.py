@@ -18,7 +18,7 @@ class Room(models.Model):
     )
 
 
-class Amenity(models.Model):
+class RoomAmenity(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     name = models.CharField(max_length=50)
 
