@@ -1,0 +1,1 @@
+web: gunicorn kenzie_hotel.wsgi
