@@ -1,29 +1,33 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework.exceptions import ValidationError
+from hotels.serializers import AmenitiesSerializer
 from rooms.models import Room, Amenity
 
 
 class RoomSerializer(ModelSerializer):
+    #amenities = AmenitiesSerializer(many=True)
+
     class Meta:
         model = Room
-        fields = "__all__"
+        fields = [
+            "id",
+            "number",
+            "number_of_beds",
+            "is_vacant",
+            "capacity",
+            "description",
+            "rent_price",
+            "floor",
+            "hotel",
+        ]
 
-    def create(self, validated_data):
-        room, created = Room.objects.get_or_create(*validated_data)
-        if not created:
-            raise ValidationError({"Room": "Room already exists."})
-
-        return room
+        read_only_fields = [
+            "id",
+            "hotel",
+        ]
 
 
 class RoomAmenitySerializer(ModelSerializer):
     class Meta:
         model = Amenity
         fields = "__all__"
-
-    def create(self, validated_data):
-        amenity, created = Amenity.objects.get_or_create(*validated_data)
-        if not created:
-            raise ValidationError({"Amenity": "Amenity already exists."})
-
-        return amenity
