@@ -1,1 +1,1 @@
-web: gunicorn kenzie_hotel.wsgi --log-level debug
+web: gunicorn kenzie_hotel.wsgi
