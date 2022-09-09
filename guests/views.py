@@ -19,10 +19,14 @@ class GuestView(ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(hotel=self.request.user)
 
+    def get_queryset(self):
+        user = self.request.user
+        return self.queryset.filter(hotel_id=user.id)
+
 
 class RetrieveGuestView(RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [RetrieveGuestPermissions]
+    permission_classes = [IsAuthenticatedOrAdmin, RetrieveGuestPermissions]
 
     queryset = Guest.objects.all()
     serializer_class = GuestSerializer
