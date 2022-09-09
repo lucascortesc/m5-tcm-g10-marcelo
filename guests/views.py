@@ -26,3 +26,4 @@ class RetrieveGuestView(RetrieveUpdateDestroyAPIView):
 
     queryset = Guest.objects.all()
     serializer_class = GuestSerializer
+    lookup_url_kwarg = "guest_id"
