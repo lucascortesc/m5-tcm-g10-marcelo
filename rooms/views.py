@@ -3,6 +3,7 @@ from rooms.models import Room
 from rooms.serializers import RoomSerializer
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class RoomView(generics.ListCreateAPIView):
@@ -21,3 +22,17 @@ class RoomDetailView(generics.RetrieveUpdateAPIView):
     serializer_class = RoomSerializer
 
     lookup_url_kwarg = "room_id"
+
+
+class RoomFilterView(generics.ListAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [
+        "number_of_beds",
+        "capacity",
+        "rent_price",
+    ]
