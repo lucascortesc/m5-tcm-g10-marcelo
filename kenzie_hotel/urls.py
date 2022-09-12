@@ -23,6 +23,7 @@ urlpatterns = [
     path("api/", include("hotels.urls")),
     path("api/", include("employees.urls")),
     path("api/", include("guests.urls")),
+    path("api/", include("reservations.urls")),
     path("api/login/", obtain_auth_token),
 
 ]
