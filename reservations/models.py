@@ -17,3 +17,7 @@ class Reservation(models.Model):
     room = models.ForeignKey(
         "rooms.Room", on_delete=models.CASCADE, related_name="reservations"
     )
+
+
+class History(Reservation):
+    reservation_id = models.CharField(max_length=255)
