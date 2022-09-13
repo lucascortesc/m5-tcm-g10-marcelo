@@ -17,7 +17,3 @@ class Guest(models.Model):
     )
     created_at = models.DateTimeField(default=now, editable=False)
     updated_at = models.DateTimeField(auto_now=True)
-
-    hotel = models.ForeignKey(
-        "hotels.Hotel", on_delete=models.CASCADE, related_name="guests"
-    )
