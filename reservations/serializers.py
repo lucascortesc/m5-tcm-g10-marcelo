@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
-from .models import Reservation
+from .models import History, Reservation
 
 
 class ReservationSerializer(ModelSerializer):
@@ -19,3 +19,8 @@ class RetrieveReservationSerializer(ModelSerializer):
         depth = 1
 
         read_only_fields = ["id"]
+
+class HistorySerializer(ModelSerializer):
+    class Meta:
+        model = History
+        fields = "__all__"

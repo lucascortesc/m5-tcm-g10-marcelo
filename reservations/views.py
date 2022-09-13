@@ -1,6 +1,7 @@
 from datetime import datetime
-from optparse import check_builtin
 
+from django.forms import model_to_dict
+from django.shortcuts import get_object_or_404
 from employees.permissions import IsAuthenticatedOrAdmin
 from guests.models import Guest
 from rest_framework import status
@@ -11,9 +12,10 @@ from rest_framework.generics import (ListCreateAPIView,
 from rest_framework.response import Response
 from rooms.models import Room
 
-from .models import Reservation
+from .models import History, Reservation
 from .permissions import RetrieveReservationPermissions
-from .serializers import ReservationSerializer, RetrieveReservationSerializer
+from .serializers import (HistorySerializer, ReservationSerializer,
+                          RetrieveReservationSerializer)
 
 
 class NotFoundError(APIException):
@@ -153,3 +155,30 @@ class RetrieveReservationView(RetrieveUpdateDestroyAPIView):
 
             return Response(serializer.data)
 
+
+class CheckoutView(ListCreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrAdmin, RetrieveReservationPermissions]
+
+    queryset = Reservation.objects.all()
+    serializer_class = HistorySerializer
+
+    def get(self, request, reservation_id):
+        return Response({"detail": "This route is only for checkout, please, use the history route to get all closed reservations"})
+
+    def create(self, request, reservation_id):
+        reservation_id = self.kwargs['reservation_id']
+
+        reservation = get_object_or_404(Reservation, id=reservation_id)
+
+        dict_reservation = model_to_dict(reservation)
+        dict_reservation['reservation_id'] = reservation_id
+
+        serializer = self.get_serializer(data=dict_reservation)
+        serializer.is_valid(raise_exception=True)
+
+        serializer.save()
+
+        reservation.delete()
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
