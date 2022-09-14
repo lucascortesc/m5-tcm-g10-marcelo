@@ -24,7 +24,6 @@ class AllReservationView(ListAPIView):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
 
-<<<<<<< HEAD
     filter_backends = [DjangoFilterBackend]
     filterset_fields = [
         "guest",
@@ -32,13 +31,6 @@ class AllReservationView(ListAPIView):
         
     ]
 
-=======
-    def get_queryset(self):
-        hotel_id = self.request.user.id
-        query_set = [reservation for reservation in self.queryset.all() if reservation.room.hotel.id == hotel_id]
-
-        return query_set
->>>>>>> bba135d937d26fad147386440b92ccbc31229cbd
 
 class AllHistoryView(ListAPIView):
     authentication_classes = [TokenAuthentication]
@@ -46,12 +38,20 @@ class AllHistoryView(ListAPIView):
 
     queryset = History.objects.all()
     serializer_class = HistorySerializer
+    
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [
+        "guest",
+        "room",
+        
+    ]
+
 
     def get_queryset(self):
         hotel_id = self.request.user.id
-        query_set = [history for history in self.queryset.all() if history.room.hotel.id == hotel_id]
-          
-        return query_set
+        #histories = [history for history in self.queryset.all() if history.room.hotel.id == hotel_id]
+        histories = History.objects.filter(room__hotel__id=hotel_id)
+        return histories
 
 class ReservationView(ListCreateAPIView):
     authentication_classes = [TokenAuthentication]

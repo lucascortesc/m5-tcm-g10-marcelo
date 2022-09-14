@@ -22,14 +22,14 @@ class RoomView(generics.ListCreateAPIView):
         "number_of_beds",
         "capacity",
         "rent_price",
-        "amenities",
+       
     ]
     def perform_create(self, serializer):
        
         serializer.save(hotel=self.request.user)
 
     def get_queryset(self):
-        return self.queryset.filter(hotel=self.request.user)
+        #return self.queryset.filter(hotel=self.request.user)
         params_amenities = self.request.GET.getlist('amenities')
         # rooms = Room.objects.all()
 
