@@ -39,6 +39,14 @@ class HotelSerializer(ModelSerializer):
         extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
+        if len(validated_data["cnpj"]) < 14:
+            raise ValidationError({"detail": "Your CNPJ must contain 14 Digits."})
+
+        numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
+        for digit in validated_data["cnpj"]:
+            if digit not in numbers:
+                raise ValidationError({"detail": "Your CNPJ must contain only Digits."})
 
         address = validated_data.pop("address")
         serializer_address = AddressSerializer(data=address)
@@ -58,8 +66,23 @@ class HotelSerializer(ModelSerializer):
         return hotel
 
     def update(self, instance, validated_data):
+
+        if "cnpj" in validated_data:
+            if len(validated_data["cnpj"]) < 14:
+                raise ValidationError({"detail": "Your CNPJ must contain 14 Digits."})
+
+            numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
+            for digit in validated_data["cnpj"]:
+                if digit not in numbers:
+                    raise ValidationError(
+                        {"detail": "Your CNPJ must contain only Digits."}
+                    )
+
         if "amenities" in validated_data:
-            raise ValidationError("Amenities: You can't update amenities yet.")
+            raise ValidationError(
+                "Amenities: Use UPDATE /api/hotels/amenities/amenity_id/ to update an amenity."
+            )
         if "password" in validated_data:
             password_to_update = validated_data.pop("password")
             instance.set_password(password_to_update)
