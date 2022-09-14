@@ -14,15 +14,19 @@ class RoomView(generics.ListCreateAPIView):
     serializer_class = RoomSerializer
 
     def perform_create(self, serializer):
+       
         serializer.save(hotel=self.request.user)
 
+    def get_queryset(self):
+        return self.queryset.filter(hotel=self.request.user)
 
-class RoomDetailView(generics.RetrieveUpdateAPIView):
+
+class RoomDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
 
     lookup_url_kwarg = "room_id"
-
+    
 
 class RoomFilterView(generics.ListAPIView):
     authentication_classes = [TokenAuthentication]
@@ -30,9 +34,11 @@ class RoomFilterView(generics.ListAPIView):
 
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
+
     filter_backends = [DjangoFilterBackend]
     filterset_fields = [
         "number_of_beds",
         "capacity",
         "rent_price",
+        "amenities",
     ]

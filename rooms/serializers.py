@@ -30,6 +30,7 @@ class RoomSerializer(ModelSerializer):
         amenities_list = validated_data.pop("amenities")
 
         room = Room.objects.create(**validated_data)
+        
         for amenity in amenities_list:
             amenity_created, _ = RoomAmenity.objects.get_or_create(**amenity)
             amenity_created.room.add(room)
