@@ -152,3 +152,5 @@ class HistorySerializer(ModelSerializer):
     class Meta:
         model = History
         fields = "__all__"
+
+    
