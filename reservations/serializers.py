@@ -37,6 +37,10 @@ class ReservationSerializer(ModelSerializer):
 
     def create(self, data):
         room_id = self.context['room_id']
+
+        if not data['guest']:
+            raise NotFoundError({"detail": "Guest not found."})
+
         guest_id = str(data['guest'][0].id)
         guest = Guest.objects.filter(id=guest_id).first()
 
