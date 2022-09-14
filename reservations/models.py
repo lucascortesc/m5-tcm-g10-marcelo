@@ -17,3 +17,19 @@ class Reservation(models.Model):
     room = models.ForeignKey(
         "rooms.Room", on_delete=models.CASCADE, related_name="reservations"
     )
+
+
+class History(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+    checkin = models.DateField()
+    checkout = models.DateField()
+    total_persons = models.PositiveIntegerField()
+    total_price = models.DecimalField(max_digits=8, decimal_places=2)
+
+    guest = models.ForeignKey(
+        "guests.Guest", on_delete=models.CASCADE, related_name="history"
+    )
+
+    room = models.ForeignKey(
+        "rooms.Room", on_delete=models.CASCADE, related_name="history"
+    )

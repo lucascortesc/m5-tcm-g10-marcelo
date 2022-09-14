@@ -3,10 +3,10 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView, Request, Response, status
 
-from hotels.models import Hotel
+from hotels.models import Amenity, Hotel
 
 from .permissions import IsOwnerUserPermission
-from .serializers import HotelSerializer
+from .serializers import AmenitiesSerializer, HotelSerializer
 
 
 class HotelViews(ListCreateAPIView):
@@ -29,3 +29,11 @@ class HotelDetailsViews(RetrieveUpdateDestroyAPIView):
         address.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class AmenitiesHotelViews(RetrieveUpdateDestroyAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = Amenity.objects.all()
+    serializer_class = AmenitiesSerializer
+    lookup_url_kwarg = "amenity_id"

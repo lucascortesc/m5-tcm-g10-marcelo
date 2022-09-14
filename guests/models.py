@@ -12,12 +12,7 @@ class Guest(models.Model):
     birthdate = models.DateField()
     email = models.EmailField(unique=True)
     cpf = models.CharField(
-        max_length=11,
-        validators=[MinLengthValidator(11)]
+        max_length=11, validators=[MinLengthValidator(11)], unique=True
     )
     created_at = models.DateTimeField(default=now, editable=False)
     updated_at = models.DateTimeField(auto_now=True)
-
-    hotel = models.ForeignKey(
-        "hotels.Hotel", on_delete=models.CASCADE, related_name="guests"
-    )
