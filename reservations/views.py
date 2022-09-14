@@ -1,9 +1,13 @@
+from datetime import date
+
 from django.forms import model_to_dict
 from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
 from employees.permissions import IsAuthenticatedOrAdmin
 from guests.models import Guest
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.exceptions import APIException
 from rest_framework.generics import (CreateAPIView, ListAPIView,
                                      ListCreateAPIView,
                                      RetrieveUpdateDestroyAPIView)
@@ -15,7 +19,10 @@ from .models import History, Reservation
 from .permissions import ReservationPermissions, RetrieveReservationPermissions
 from .serializers import (HistorySerializer, ReservationSerializer,
                           RetrieveReservationSerializer)
-from django_filters.rest_framework import DjangoFilterBackend
+
+
+class validateErr(APIException):
+    status_code = 409
 
 class AllReservationView(ListAPIView):
     authentication_classes = [TokenAuthentication]
@@ -77,9 +84,6 @@ class ReservationView(ListCreateAPIView):
 
         room = room[0]
 
-        room.is_vacant = False
-        room.save()
-
         self.check_object_permissions(request=request, obj=room)
 
         serializer.is_valid(raise_exception=True)
@@ -136,17 +140,57 @@ class CheckoutView(CreateAPIView):
 
         reservation = get_object_or_404(Reservation, id=reservation_id)
 
+        self.check_object_permissions(request=request, obj=reservation)
+
+        room = Room.objects.get(id=reservation.room.id)
+    
+        if room.is_vacant == True:
+            raise validateErr({"detail": "You must do checkin first."})
+
+        today = date.today()
+
+        if today < reservation.checkin:
+            raise validateErr({"detail": "You can't do checkout before checkin."})
+
+        room.is_vacant = True
+        room.save()
+
         dict_reservation = model_to_dict(reservation)
         dict_reservation['reservation_id'] = reservation_id
 
         serializer = self.get_serializer(data=dict_reservation)
         serializer.is_valid(raise_exception=True)
 
-        # room.is_vacant = True
-        # room.save()
-
         serializer.save()
 
         reservation.delete()
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response({"detail": "Checkout feito com sucesso."}, status=status.HTTP_200_OK)
+
+class CheckinView(CreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrAdmin, RetrieveReservationPermissions]
+
+    queryset = Reservation.objects.all()
+    serializer_class = HistorySerializer
+
+    def create(self, request, *args, **kwargs):
+        reservation_id = self.kwargs['reservation_id']
+        reservation = get_object_or_404(Reservation, id=reservation_id)
+
+        room = Room.objects.get(id=reservation.room.id)
+
+        self.check_object_permissions(request=request, obj=reservation)
+
+        if room.is_vacant == False:
+            raise validateErr({"detail": "Room is occupied."})
+
+        today = date.today()
+
+        if today < reservation.checkin or today >= reservation.checkout:
+            raise validateErr({"detail": "You can't do checkin today."})
+
+        room.is_vacant = False
+        room.save()
+        
+        return Response({"detail": "Chekin feito com sucesso."}, status=status.HTTP_200_OK)
