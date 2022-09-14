@@ -27,10 +27,18 @@ class RoomView(generics.ListCreateAPIView):
     def get_queryset(self):
 
         params_amenities = self.request.GET.getlist('amenities')
+        min_price = self.request.GET.get('min_price')
+        max_price = self.request.GET.get('max_price')
 
         queryset = Room.objects.all()
         for search_term in params_amenities:
-            queryset = queryset.filter(amenities__name=search_term) 
+            queryset = queryset.filter(amenities__name=search_term)
+
+        if min_price:
+            queryset = queryset.filter(rent_price__gte=min_price)
+
+        if max_price:
+            queryset = queryset.filter(rent_price__lte=max_price)  
         
         return queryset
 
