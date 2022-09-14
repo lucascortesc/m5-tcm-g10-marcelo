@@ -1,0 +1,1593 @@
+openapi: 3.0.3
+info:
+  title: Kenzie_Hotel_API
+  version: 1.0.0
+paths:
+  /api/employees/:
+    get:
+      operationId: employees_list
+      tags:
+      - employees
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+          description: ''
+    post:
+      operationId: employees_create
+      tags:
+      - employees
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeDetail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EmployeeDetail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EmployeeDetail'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeDetail'
+          description: ''
+  /api/employees/{employee_id}/:
+    get:
+      operationId: employees_retrieve
+      parameters:
+      - in: path
+        name: employee_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - employees
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeDetail'
+          description: ''
+    put:
+      operationId: employees_update
+      parameters:
+      - in: path
+        name: employee_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - employees
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeDetail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EmployeeDetail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EmployeeDetail'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeDetail'
+          description: ''
+    patch:
+      operationId: employees_partial_update
+      parameters:
+      - in: path
+        name: employee_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - employees
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedEmployeeDetail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedEmployeeDetail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedEmployeeDetail'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeDetail'
+          description: ''
+    delete:
+      operationId: employees_destroy
+      parameters:
+      - in: path
+        name: employee_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - employees
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/guests/:
+    get:
+      operationId: guests_list
+      tags:
+      - guests
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Guest'
+          description: ''
+    post:
+      operationId: guests_create
+      tags:
+      - guests
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Guest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Guest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Guest'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Guest'
+          description: ''
+  /api/guests/{guest_id}/:
+    get:
+      operationId: guests_retrieve
+      parameters:
+      - in: path
+        name: guest_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - guests
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Guest'
+          description: ''
+    put:
+      operationId: guests_update
+      parameters:
+      - in: path
+        name: guest_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - guests
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Guest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Guest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Guest'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Guest'
+          description: ''
+    patch:
+      operationId: guests_partial_update
+      parameters:
+      - in: path
+        name: guest_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - guests
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedGuest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedGuest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedGuest'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Guest'
+          description: ''
+    delete:
+      operationId: guests_destroy
+      parameters:
+      - in: path
+        name: guest_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - guests
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/history/:
+    get:
+      operationId: history_list
+      parameters:
+      - in: query
+        name: guest
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: room
+        schema:
+          type: string
+          format: uuid
+      tags:
+      - history
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/History'
+          description: ''
+  /api/hotels/:
+    get:
+      operationId: hotels_list
+      tags:
+      - hotels
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Hotel'
+          description: ''
+    post:
+      operationId: hotels_create
+      tags:
+      - hotels
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hotel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Hotel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Hotel'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hotel'
+          description: ''
+  /api/hotels/{hotel_id}/:
+    get:
+      operationId: hotels_retrieve
+      parameters:
+      - in: path
+        name: hotel_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - hotels
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hotel'
+          description: ''
+    put:
+      operationId: hotels_update
+      parameters:
+      - in: path
+        name: hotel_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - hotels
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hotel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Hotel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Hotel'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hotel'
+          description: ''
+    patch:
+      operationId: hotels_partial_update
+      parameters:
+      - in: path
+        name: hotel_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - hotels
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedHotel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedHotel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedHotel'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hotel'
+          description: ''
+    delete:
+      operationId: hotels_destroy
+      parameters:
+      - in: path
+        name: hotel_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - hotels
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/hotels/amenities/{amenity_id}/:
+    get:
+      operationId: hotels_amenities_retrieve
+      parameters:
+      - in: path
+        name: amenity_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - hotels
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Amenities'
+          description: ''
+    put:
+      operationId: hotels_amenities_update
+      parameters:
+      - in: path
+        name: amenity_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - hotels
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Amenities'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Amenities'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Amenities'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Amenities'
+          description: ''
+    patch:
+      operationId: hotels_amenities_partial_update
+      parameters:
+      - in: path
+        name: amenity_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - hotels
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAmenities'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAmenities'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAmenities'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Amenities'
+          description: ''
+    delete:
+      operationId: hotels_amenities_destroy
+      parameters:
+      - in: path
+        name: amenity_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - hotels
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/login/:
+    post:
+      operationId: login_create
+      tags:
+      - login
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+          description: ''
+  /api/reservations/:
+    get:
+      operationId: reservations_list
+      parameters:
+      - in: query
+        name: guest
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: room
+        schema:
+          type: string
+          format: uuid
+      tags:
+      - reservations
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reservation'
+          description: ''
+  /api/reservations/{reservation_id}/:
+    get:
+      operationId: reservations_retrieve
+      parameters:
+      - in: path
+        name: reservation_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - reservations
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrieveReservation'
+          description: ''
+    put:
+      operationId: reservations_update
+      parameters:
+      - in: path
+        name: reservation_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - reservations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RetrieveReservation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RetrieveReservation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RetrieveReservation'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrieveReservation'
+          description: ''
+    patch:
+      operationId: reservations_partial_update
+      parameters:
+      - in: path
+        name: reservation_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - reservations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRetrieveReservation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRetrieveReservation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRetrieveReservation'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrieveReservation'
+          description: ''
+    delete:
+      operationId: reservations_destroy
+      parameters:
+      - in: path
+        name: reservation_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - reservations
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/reservations/{reservation_id}/checkout/:
+    post:
+      operationId: reservations_checkout_create
+      parameters:
+      - in: path
+        name: reservation_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - reservations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/History'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/History'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/History'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/History'
+          description: ''
+  /api/rooms/:
+    get:
+      operationId: rooms_list
+      parameters:
+      - in: query
+        name: capacity
+        schema:
+          type: integer
+      - in: query
+        name: number_of_beds
+        schema:
+          type: integer
+      - in: query
+        name: rent_price
+        schema:
+          type: number
+      tags:
+      - rooms
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Room'
+          description: ''
+    post:
+      operationId: rooms_create
+      tags:
+      - rooms
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Room'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Room'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Room'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+          description: ''
+  /api/rooms/{room_id}/:
+    get:
+      operationId: rooms_retrieve
+      parameters:
+      - in: path
+        name: room_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - rooms
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+          description: ''
+    put:
+      operationId: rooms_update
+      parameters:
+      - in: path
+        name: room_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - rooms
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Room'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Room'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Room'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+          description: ''
+    patch:
+      operationId: rooms_partial_update
+      parameters:
+      - in: path
+        name: room_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - rooms
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRoom'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRoom'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRoom'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+          description: ''
+    delete:
+      operationId: rooms_destroy
+      parameters:
+      - in: path
+        name: room_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - rooms
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/rooms/{room_id}/reservations/:
+    get:
+      operationId: rooms_reservations_list
+      parameters:
+      - in: path
+        name: room_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - rooms
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reservation'
+          description: ''
+    post:
+      operationId: rooms_reservations_create
+      parameters:
+      - in: path
+        name: room_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - rooms
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+          description: ''
+components:
+  schemas:
+    Address:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        street:
+          type: string
+          maxLength: 50
+        number:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        city:
+          type: string
+          maxLength: 50
+        state:
+          type: string
+          maxLength: 50
+        zip_code:
+          type: string
+          maxLength: 8
+        complement:
+          type: string
+          nullable: true
+          maxLength: 255
+      required:
+      - city
+      - id
+      - number
+      - state
+      - street
+      - zip_code
+    Amenities:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+      required:
+      - id
+      - name
+    AuthToken:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        token:
+          type: string
+          readOnly: true
+      required:
+      - password
+      - token
+      - username
+    Employee:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+        birthdate:
+          type: string
+          format: date
+        cpf:
+          type: string
+          maxLength: 11
+        function:
+          type: string
+          maxLength: 200
+        hiring_date:
+          type: string
+          format: date
+        salary:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        hotel_id:
+          type: string
+          format: uuid
+          readOnly: true
+      required:
+      - birthdate
+      - cpf
+      - first_name
+      - function
+      - hiring_date
+      - hotel_id
+      - id
+      - last_name
+      - salary
+    EmployeeDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+        birthdate:
+          type: string
+          format: date
+        cpf:
+          type: string
+          maxLength: 11
+        function:
+          type: string
+          maxLength: 200
+        hiring_date:
+          type: string
+          format: date
+        salary:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        hotel:
+          allOf:
+          - $ref: '#/components/schemas/EmployeeHotel'
+          readOnly: true
+      required:
+      - birthdate
+      - cpf
+      - first_name
+      - function
+      - hiring_date
+      - hotel
+      - id
+      - last_name
+      - salary
+    EmployeeHotel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        email:
+          type: string
+          format: email
+          readOnly: true
+          title: Email address
+        cnpj:
+          type: string
+          readOnly: true
+      required:
+      - cnpj
+      - email
+      - id
+      - name
+    Guest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 255
+        last_name:
+          type: string
+          maxLength: 255
+        birthdate:
+          type: string
+          format: date
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        cpf:
+          type: string
+          maxLength: 11
+          minLength: 11
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - birthdate
+      - cpf
+      - created_at
+      - email
+      - first_name
+      - id
+      - last_name
+      - updated_at
+    History:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        checkin:
+          type: string
+          format: date
+        checkout:
+          type: string
+          format: date
+        total_persons:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        total_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        guest:
+          type: string
+          format: uuid
+        room:
+          type: string
+          format: uuid
+      required:
+      - checkin
+      - checkout
+      - guest
+      - id
+      - room
+      - total_persons
+      - total_price
+    Hotel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        name:
+          type: string
+          maxLength: 255
+        cnpj:
+          type: string
+          maxLength: 14
+        address:
+          $ref: '#/components/schemas/Address'
+        stars:
+          type: integer
+          maximum: 5
+          minimum: 1
+        amenities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Amenities'
+      required:
+      - address
+      - amenities
+      - cnpj
+      - id
+      - name
+      - password
+      - stars
+      - username
+    Nested:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 255
+        last_name:
+          type: string
+          maxLength: 255
+        birthdate:
+          type: string
+          format: date
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        cpf:
+          type: string
+          maxLength: 11
+          minLength: 11
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - birthdate
+      - cpf
+      - created_at
+      - email
+      - first_name
+      - id
+      - last_name
+      - updated_at
+    PatchedAmenities:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+    PatchedEmployeeDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+        birthdate:
+          type: string
+          format: date
+        cpf:
+          type: string
+          maxLength: 11
+        function:
+          type: string
+          maxLength: 200
+        hiring_date:
+          type: string
+          format: date
+        salary:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        hotel:
+          allOf:
+          - $ref: '#/components/schemas/EmployeeHotel'
+          readOnly: true
+    PatchedGuest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 255
+        last_name:
+          type: string
+          maxLength: 255
+        birthdate:
+          type: string
+          format: date
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        cpf:
+          type: string
+          maxLength: 11
+          minLength: 11
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedHotel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        name:
+          type: string
+          maxLength: 255
+        cnpj:
+          type: string
+          maxLength: 14
+        address:
+          $ref: '#/components/schemas/Address'
+        stars:
+          type: integer
+          maximum: 5
+          minimum: 1
+        amenities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Amenities'
+    PatchedRetrieveReservation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        checkin:
+          type: string
+          format: date
+        checkout:
+          type: string
+          format: date
+        total_persons:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        total_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        guest:
+          allOf:
+          - $ref: '#/components/schemas/Nested'
+          readOnly: true
+        room:
+          allOf:
+          - $ref: '#/components/schemas/Nested'
+          readOnly: true
+    PatchedRoom:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        number:
+          type: string
+          maxLength: 15
+        number_of_beds:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        is_vacant:
+          type: boolean
+        capacity:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        description:
+          type: string
+        rent_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        floor:
+          type: string
+          maxLength: 100
+        hotel:
+          type: string
+          format: uuid
+          readOnly: true
+        amenities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Amenities'
+    Reservation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        guest_id:
+          type: string
+          format: uuid
+        checkin:
+          type: string
+          format: date
+        checkout:
+          type: string
+          format: date
+        total_persons:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        total_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+          readOnly: true
+        guest:
+          allOf:
+          - $ref: '#/components/schemas/Nested'
+          readOnly: true
+        room:
+          allOf:
+          - $ref: '#/components/schemas/Nested'
+          readOnly: true
+      required:
+      - checkin
+      - checkout
+      - guest
+      - guest_id
+      - id
+      - room
+      - total_persons
+      - total_price
+    RetrieveReservation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        checkin:
+          type: string
+          format: date
+        checkout:
+          type: string
+          format: date
+        total_persons:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        total_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        guest:
+          allOf:
+          - $ref: '#/components/schemas/Nested'
+          readOnly: true
+        room:
+          allOf:
+          - $ref: '#/components/schemas/Nested'
+          readOnly: true
+      required:
+      - checkin
+      - checkout
+      - guest
+      - id
+      - room
+      - total_persons
+      - total_price
+    Room:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        number:
+          type: string
+          maxLength: 15
+        number_of_beds:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        is_vacant:
+          type: boolean
+        capacity:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        description:
+          type: string
+        rent_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        floor:
+          type: string
+          maxLength: 100
+        hotel:
+          type: string
+          format: uuid
+          readOnly: true
+        amenities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Amenities'
+      required:
+      - amenities
+      - capacity
+      - description
+      - floor
+      - hotel
+      - id
+      - number
+      - number_of_beds
+      - rent_price
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
