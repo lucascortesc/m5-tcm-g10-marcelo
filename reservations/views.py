@@ -8,10 +8,11 @@ from rest_framework.generics import (CreateAPIView, ListAPIView,
                                      ListCreateAPIView,
                                      RetrieveUpdateDestroyAPIView)
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rooms.models import Room
 
 from .models import History, Reservation
-from .permissions import RetrieveReservationPermissions
+from .permissions import ReservationPermissions, RetrieveReservationPermissions
 from .serializers import (HistorySerializer, ReservationSerializer,
                           RetrieveReservationSerializer)
 
@@ -23,6 +24,12 @@ class AllReservationView(ListAPIView):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
 
+    def get_queryset(self):
+        hotel_id = self.request.user.id
+        query_set = [reservation for reservation in self.queryset.all() if reservation.room.hotel.id == hotel_id]
+
+        return query_set
+
 class AllHistoryView(ListAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticatedOrAdmin]
@@ -30,9 +37,15 @@ class AllHistoryView(ListAPIView):
     queryset = History.objects.all()
     serializer_class = HistorySerializer
 
+    def get_queryset(self):
+        hotel_id = self.request.user.id
+        query_set = [history for history in self.queryset.all() if history.room.hotel.id == hotel_id]
+          
+        return query_set
+
 class ReservationView(ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticatedOrAdmin]
+    permission_classes = [IsAuthenticatedOrAdmin, ReservationPermissions]
 
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
@@ -48,6 +61,16 @@ class ReservationView(ListCreateAPIView):
         serializer = self.get_serializer(data=request.data)
 
         room = Room.objects.filter(id=room_id)
+
+        if not room:
+            return Response({"detail": "Room not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        room = room[0]
+
+        room.is_vacant = False
+        room.save()
+
+        self.check_object_permissions(request=request, obj=room)
 
         serializer.is_valid(raise_exception=True)
 
@@ -108,6 +131,9 @@ class CheckoutView(CreateAPIView):
 
         serializer = self.get_serializer(data=dict_reservation)
         serializer.is_valid(raise_exception=True)
+
+        # room.is_vacant = True
+        # room.save()
 
         serializer.save()
 
