@@ -120,3 +120,29 @@ class ReservationViewsTests(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.user_token.key)
         response = self.client.get("/api/rooms/" + str(self.room.id) + "/reservations/")
         self.assertEqual(status.HTTP_200_OK, response.status_code)
+
+    def test_create_reservation(self):
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + self.user_token.key)
+        response = self.client.post(
+            "/api/rooms/" + str(self.room.id) + "/reservations/",
+            data={
+                "total_persons": 1,
+                "checkin": "2022-10-10",
+                "checkout": "2022-10-20",
+                "guest_id": str(self.guest.id),
+            },
+        )
+        self.assertEqual(status.HTTP_201_CREATED, response.status_code)
+
+    def test_create_wrong_capacity_reservation(self):
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + self.user_token.key)
+        response = self.client.post(
+            "/api/rooms/" + str(self.room.id) + "/reservations/",
+            data={
+                "total_persons": 123,
+                "checkin": "2022-10-10",
+                "checkout": "2022-10-20",
+                "guest_id": str(self.guest.id),
+            },
+        )
+        self.assertEqual(status.HTTP_400_BAD_REQUEST, response.status_code)

@@ -4,7 +4,8 @@ from employees.permissions import IsAuthenticatedOrAdmin
 from guests.models import Guest
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.generics import (ListCreateAPIView,
+from rest_framework.generics import (CreateAPIView, ListAPIView,
+                                     ListCreateAPIView,
                                      RetrieveUpdateDestroyAPIView)
 from rest_framework.response import Response
 from rooms.models import Room
@@ -14,6 +15,20 @@ from .permissions import RetrieveReservationPermissions
 from .serializers import (HistorySerializer, ReservationSerializer,
                           RetrieveReservationSerializer)
 
+
+class AllReservationView(ListAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrAdmin]
+
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
+
+class AllHistoryView(ListAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrAdmin]
+
+    queryset = History.objects.all()
+    serializer_class = HistorySerializer
 
 class ReservationView(ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
@@ -76,15 +91,12 @@ class RetrieveReservationView(RetrieveUpdateDestroyAPIView):
             return Response(serializer.data)
 
 
-class CheckoutView(ListCreateAPIView):
+class CheckoutView(CreateAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticatedOrAdmin, RetrieveReservationPermissions]
 
     queryset = Reservation.objects.all()
     serializer_class = HistorySerializer
-
-    def get(self, request, reservation_id):
-        return Response({"detail": "This route is only for checkout, please, use the history route to get all closed reservations"})
 
     def create(self, request, reservation_id):
         reservation_id = self.kwargs['reservation_id']
